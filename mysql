@@ -1,0 +1,162 @@
+import pymysql
+conn=pymysql.connect(host='localhost',user='root',password='',db='careerdb')
+a1=conn.cursor()
+sql = "INSERT INTO stdyabrd  (clgid, clgname, strid) VALUES (%s, %s,%s)"
+val = ("C01", "JEPPIAAR ENGINEERING COLLEGE","S")
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO counselling (cid, cname, tocoun, ccode, mno) VALUES (%s, %s,%s,%s,%s)"
+val = ("CN01", "DR SANTHOSH ","GIVE DETAILS ABOUT THE STREAM","D",23456789)
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO stream (sid, sname, descrip) VALUES (%s, %s,%s)"
+val = ("S", "SCIENCE ","Science is all about discovery and creative thinking. Science is a continuing effort to discover and increase knowledge through research")
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO course (crid, crname, duofcr, scp) VALUES (%s, %s,%s,%s)"
+val = ("M", "MBBS","5 years","Good job and career opportunities for the students after getting the degree in medical as a doctor. It is the professional field with 100% job placement")
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO placement (tid, cmpname, norec, tname, cid, mobno) VALUES (%s, %s,%s,%s,%s,%s)"
+val = ("T01", "INFOSYS",45,"HEMALATHA","E",3456789012)
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO material (eid, link, elink, crid) VALUES (%s, %s,%s,%s)"
+val = ("E01", "WWW.BBA.COM","WWW.BBABOOK.COM","B")
+a1.execute(sql, val)
+conn.commit()
+sql = "INSERT INTO tool ( tid, tname, tuses, tlink) VALUES (%s, %s,%s,%s)"
+val = ("R", "RESUME BUILDER","HELP TO WRITE  RESUME","WWW.RESUMEBUILDER.COM")
+a1.execute(sql, val)
+conn.commit()
+print("***********************************************************************")
+str1=str(input("ENTER YOUR STANDARD XII STREAM"))
+print("LOGIN FOR MORE DETAILS")
+name=input("ENTER YOUR NAME")
+email_id=input("ENTER YOUR EMAIL_ID")
+mob_no=input("ENTER YOUR MOBILE NUMBER")
+print("CHOOSE FROM OPTION")
+print("1. COLLEGES AVAILABLE")
+print("2.COUNSELLING")
+print("3.COURSES DETAILS")
+print("4.PLACEMENT TRAINING")
+print("5.MATERIAL FOR LEARNING")
+print("6.TOOLS FOR USE")
+ur=int(input("ENTER YOUR CHOICE"))
+if ur==1:
+	a2=conn.cursor()
+	print("A-ARTS")
+	print("C-COMMERCE")
+	print("S-SCIENCE")
+	str11=input()
+	s1="SELECT clgname,clgid FROM stdyabrd WHERE strid=(%s)" 
+	a2.execute(s1,str11)
+	print("THE LIST OF SUGGESTED COLLEGES ARE")
+	data=a2.fetchall()
+	for x in data:
+		print(x)
+if ur==2:
+	a2=conn.cursor()
+	t2=input("ENTER THE TYPE OF COUNSELLING YOU NEED:")
+	print("a. C-CAREER GUIDANCE")
+	print("b. S-COUNSELLING TO OVERCOME STRESS")
+	print("c. D- GET TO KNOW ABOUT THE COLLEGES CHOSEN")
+	s2="SELECT cname ,mno FROM counselling WHERE ccode=(%s)"
+	print("YOU CAN CONTACT THEM FOR COUNSELLING")
+	a2.execute(s2,t2)
+	data=a2.fetchall()
+	for x in data:
+		print(x)
+if ur==3:
+	a2=conn.cursor()
+	print("M-MBBS")
+	print("E-ENGINEERING")
+	print("B=BBA")
+	print("BC-B.COM")
+	C=input("enter the course you select")
+	s3="SELECT crname , duofcr,scp FROM COURSE WHERE crid=(%s)"
+	a2.execute(s3,C)
+	data=a2.fetchall()
+	for x in data:
+		print(x)
+	Op1=str(input("Do you want to know more about the course"))
+	if Op1=="yes":
+		s4="SELECT link FROM material WHERE crid=(%s)"
+		a2.execute(s4,C)
+		data=a2.fetchall()
+		for x in data:
+    			print(x)
+	elif Op1=="no":
+		print("THANK YOU")
+	else:
+		print("INVALID CHOICE")   
+if ur==4:
+	a2=conn.cursor()
+	print("M-MBBS")
+	print("E-ENGINEERING")
+	print("B=BBA")
+	print("BC-B.COM")
+	C=input("enter the course you select")
+	print("THE PLACEMENT TRAINING FOR YOUR COURSE")
+	s5="SELECT tid,tname,mobno,norec,cmpname FROM placement WHERE crid=(%s)"
+	a2.execute(s5,C)
+	data=a2.fetchall()
+	for x in data:
+		print(x)
+	opt1=input("DO YOU WANT ANY PLACEMENT BOOKS")
+	if opt1=="yes":
+		s6="SELECT elink,eid FROM material WHERE crid=(%s)"
+		a2.execute(s6,C)
+		data=a2.fetchall()
+		for x in data:
+			print(x)
+	else:
+		print("THANK YOU")
+		Opt2=input("YOU WANT TO ENHANCE YOUR SKILLS?")
+		if Opt2 =="yes":
+			print(" R-RESUMEBUILDER")
+			print("E-EASSAY WRITER")
+			print("Q-QUIZME")
+			print("C-CODE LINKS")
+			E=input("ENTER THE TOOL YOU WANT TO ACCESS")
+			s10="SELECT tname,tlink FROM tool WHERE tid=(%s)"
+			a2.execute(s10,E)
+			data=a2.fetchall()
+			for x in data:
+				print(x)
+		else:
+			print("THANK YOU")
+if ur==5:
+	print("M-MBBS")
+	print("E-ENGINEERING")
+	print("B=BBA")
+	print("BC-B.COM")
+	D=input("ENTER THE COURSE")
+	opt1=input("DO YOU WANT TO ACCESS THE MATERIALS")
+	if opt1=="yes":
+		s9="SELECT elink,link FROM material WHERE crid=(%S)"
+		print()
+		a2=conn.cursor()
+		a2.execute(s9,D)
+		data=a2.fetchall()
+		for x in data:
+			print(x)
+if ur==6:
+	a2=conn.cursor()
+	print("THE SUGGESTED TOOLS ARE")
+	print("R-RESUMEBUILDER")
+	print("E-EASSAY WRITER")
+	print("Q-QUIZME")
+	print("C-CODE LINKS")
+	E=input("ENTER THE TOOL YOU WANT TO ACCESS")
+	s10="SELECT tname,tlink FROM tool WHERE tid=(%s)"
+	a2.execute(s10,E)
+	data=a2.fetchall()
+	for x in data:
+	    	print(x)
+
+print("\n***********************************************************************************")
+print("\n---------------------THANK YOU!!!!!------------------------------------------------------")
+print("\nA Project By Team BEAST EXPRESS")
+print("Thank u")
+conn.close()
